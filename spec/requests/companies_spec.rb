@@ -1,25 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe "Companies", type: :request do
-  describe "GET /index" do
+  describe "GET /companies" do
     it "returns http success" do
-      get "/companies/index"
-      expect(response).to have_http_status(:success)
+      create_list(:company, 3)
+      get "/companies"
+      expect(response).to have_http_status(:ok)
     end
   end
 
-  describe "GET /show" do
+  describe "GET /companies/:id" do
     it "returns http success" do
-      get "/companies/show"
-      expect(response).to have_http_status(:success)
+      company = create(:company)
+      get "/companies/#{company.id}"
+      expect(response).to have_http_status(:ok)
     end
   end
 
-  describe "GET /create" do
-    it "returns http success" do
-      get "/companies/create"
-      expect(response).to have_http_status(:success)
+  describe "POST /companies" do
+    it "creates a company" do
+      post "/companies", params: { company: { name: "Empresa Nova" } }
+      expect(response).to have_http_status(:created)
     end
   end
-
 end
+
