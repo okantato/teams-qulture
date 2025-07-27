@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root to: 'companies#index'
+
   resources :companies, only: [:index, :show, :create] do
     resources :employees, only: [:index, :create, :destroy] do
       member do
@@ -9,7 +11,6 @@ Rails.application.routes.draw do
       end
     end
   end
-
 
   get "up" => "rails/health#show", as: :rails_health_check
 end
