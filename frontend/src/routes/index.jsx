@@ -8,8 +8,11 @@ import AdminDashboard from '../pages/admin/Dashboard';
 import UserDashboard from '../pages/user/Dashboard';
 import SuperadminDashboard from '../pages/superadmin/Dashboard';
 import SuperadminCompanies from '../pages/superadmin/CompaniesPage';
-
+import AdminEmployeesPage from '../pages/admin/AdminEmployeesPage';
 import ProtectedRoute from '../components/ProtectedRoute';
+import EmployeePeers from '../pages/admin/EmployeePeers';
+import EmployeeDirectReports from '../pages/admin/EmployeeDirectReports';
+
 
 export default function AppRoutes() {
   return (
@@ -56,7 +59,48 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/admin/employees" element={
+          <ProtectedRoute requiredRole="admin">
+            <AdminEmployeesPage />
+          </ProtectedRoute>
+        } />
+
+        <Route
+          path="/admin/employees/:company_id/:id/peers"
+          element={
+            <ProtectedRoute requiredRole="admin">
+              <EmployeePeers />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/employees/:companyId/:employeeId/peers"
+          element={
+            <ProtectedRoute requiredRole="admin">
+              <EmployeePeers />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/employees/:company_id/:id/peers"
+          element={
+            <ProtectedRoute requiredRole="admin">
+              <EmployeePeers />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="/admin/employees/:company_id/:id/direct-reports" element={
+          <ProtectedRoute requiredRole="admin">
+            <EmployeeDirectReports />
+          </ProtectedRoute>
+        } />
+
       </Routes>
+
     </Router>
   );
 }

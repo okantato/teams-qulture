@@ -22,31 +22,37 @@ export default function CompaniesPage() {
     setSelectedCompany(null);
   };
 
+  const getAdmins = (employees) => employees.filter((e) => e.admin);
+  const getManagers = (employees) =>
+    employees.filter((e) => employees.some((emp) => emp.manager_id === e.id));
+
+  const isManager = (employee, all) =>
+    all.some((e) => e.manager_id === employee.id);
+
   return (
     <div className="min-h-screen bg-white text-black font-mono">
       <Navbar />
 
-      <div className="flex flex-col items-center justify-start px-4 py-8">
-        <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center">
+      <div className=" pt-20 flex flex-col items-center justify-start px-4 py-8">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-center">
           Lista de Empresas
         </h1>
 
-        <div className="w-full max-w-4xl overflow-x-auto">
-          <table className="w-full table-auto border border-gray-300 rounded">
+        {/* Tabela para telas grandes */}
+        <div className="hidden sm:block w-full max-w-4xl overflow-x-auto">
+          <table className="min-w-full table-auto border border-gray-300 rounded text-sm">
             <thead className="bg-gray-100 text-left">
               <tr>
-                <th className="px-4 py-3 border">ID</th>
                 <th className="px-4 py-3 border">Nome</th>
-                <th className="px-4 py-3 border">Funcionários</th>
+                <th className="px-4 py-3 border">Colaboradores</th>
                 <th className="px-4 py-3 border">Ações</th>
               </tr>
             </thead>
             <tbody>
               {companies.map((company) => (
                 <tr key={company.id} className="hover:bg-gray-50 transition">
-                  <td className="px-4 py-2 border">{company.id}</td>
                   <td className="px-4 py-2 border">{company.name}</td>
-                  <td className="px-4 py-2 border">{company.employees.length}</td>
+                  <td className="px-4 py-2 border text-center">{company.employees.length}</td>
                   <td className="px-4 py-2 border">
                     <button
                       className="text-blue-600 hover:underline text-sm"
@@ -61,6 +67,25 @@ export default function CompaniesPage() {
           </table>
         </div>
 
+        {/* Lista adaptada para mobile */}
+        <div className="sm:hidden w-full max-w-md mx-auto space-y-4">
+          {companies.map((company) => (
+            <div key={company.id} className="border rounded p-4 shadow-sm bg-gray-50">
+              <h2 className="text-base font-semibold">{company.name}</h2>
+              <p className="text-sm text-gray-600 mb-2">
+                Colaboradores: <strong>{company.employees.length}</strong>
+              </p>
+              <button
+                className="w-full bg-blue-600 text-white text-sm py-2 rounded hover:bg-blue-700"
+                onClick={() => handleOpenModal(company)}
+              >
+                Ver detalhes
+              </button>
+            </div>
+          ))}
+        </div>
+   
+
         <button
           onClick={() => navigate('/superadmin/dashboard')}
           className="mt-6 text-sm text-gray-600 hover:underline"
@@ -71,38 +96,68 @@ export default function CompaniesPage() {
 
       {/* Modal de detalhes */}
       {selectedCompany && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white text-black rounded-lg shadow p-6 w-full max-w-lg font-mono">
-            <h2 className="text-xl font-bold mb-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-2 sm:px-4">
+          <div className="bg-white text-black rounded-lg shadow p-4 sm:p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto relative font-mono">
+            <h2 className="text-xl font-bold mb-4 text-center">
               Empresa: {selectedCompany.name}
             </h2>
 
-            <p className="mb-2">
-              <strong>Admin:</strong>{' '}
-              {
-                selectedCompany.employees.find(
-                  (e) => e.id === selectedCompany.main_manager_id
-                )?.name || 'Não definido'
-              }
-            </p>
+            <div className="space-y-5 text-sm sm:text-base">
+              {/* Admins */}
+              <div>
+                <h3 className="font-semibold">Admins:</h3>
+                <ul className="list-disc list-inside">
+                  {getAdmins(selectedCompany.employees).map((admin) => (
+                    <li key={admin.id}>{admin.name} - {admin.email}</li>
+                  ))}
+                  {getAdmins(selectedCompany.employees).length === 0 && (
+                    <p className="text-gray-500">Nenhum admin definido.</p>
+                  )}
+                </ul>
+              </div>
 
-            <div className="mb-4">
-              <h3 className="font-semibold">Funcionários:</h3>
-              <ul className="list-disc list-inside">
-                {selectedCompany.employees.map((e) => (
-                  <li key={e.id}>
-                    {e.name} - {e.email}
-                  </li>
-                ))}
-              </ul>
+              {/* Gestores */}
+              <div>
+                <h3 className="font-semibold">Gestores:</h3>
+                <ul className="list-disc list-inside">
+                  {getManagers(selectedCompany.employees).map((manager) => (
+                    <li key={manager.id}>{manager.name} - {manager.email}</li>
+                  ))}
+                  {getManagers(selectedCompany.employees).length === 0 && (
+                    <p className="text-gray-500">Nenhum gestor definido.</p>
+                  )}
+                </ul>
+              </div>
+
+              {/* Todos os Colaboradores */}
+              <div>
+                <h3 className="font-semibold">Todos os Colaboradores:</h3>
+                <ul className="list-disc list-inside space-y-1">
+                  {selectedCompany.employees.map((emp) => (
+                    <li key={emp.id}>
+                      <span className="font-semibold">{emp.name}</span> - {emp.email}
+                      <span className="ml-2 text-xs">
+                        {emp.admin && (
+                          <span className="bg-blue-200 text-blue-800 px-2 py-0.5 rounded ml-1">Admin</span>
+                        )}
+                        {isManager(emp, selectedCompany.employees) && (
+                          <span className="bg-green-200 text-green-800 px-2 py-0.5 rounded ml-1">Gestor</span>
+                        )}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
-            <button
-              onClick={handleCloseModal}
-              className="mt-4 bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300"
-            >
-              Fechar
-            </button>
+            <div className="text-center mt-6">
+              <button
+                onClick={handleCloseModal}
+                className="bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 w-full sm:w-auto"
+              >
+                Fechar
+              </button>
+            </div>
           </div>
         </div>
       )}

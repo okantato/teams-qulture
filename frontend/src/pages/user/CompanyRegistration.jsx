@@ -3,7 +3,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export default function CompanyRegistration() {
-  const [name, setName] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [employeeName, setEmployeeName] = useState('');
+  const [employeeEmail, setEmployeeEmail] = useState('');
+  const [employeePicture, setEmployeePicture] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -12,15 +15,29 @@ export default function CompanyRegistration() {
     setError('');
 
     try {
-      await axios.post('http://localhost:3000/companies', {
-        company: { name },
+      // 1. Cria empresa
+      const companyRes = await axios.post('http://localhost:3000/companies', {
+        company: { name: companyName }
       });
-      navigate('/');
+
+      const companyId = companyRes.data.id;
+
+      // 2. Cria colaborador admin vinculado à empresa
+      await axios.post(`http://localhost:3000/companies/${companyId}/employees`, {
+        employee: {
+          name: employeeName,
+          email: employeeEmail,
+          picture: employeePicture,
+          admin: true,
+          superadmin: false
+        }
+      });
+
+      // 3. Redireciona para dashboard
+      navigate('/admin/dashboard');
     } catch (err) {
-      console.error(err.response?.data); 
-      setError(
-        err.response?.data?.errors?.[0] || 'Erro ao criar empresa. Tente novamente.'
-      );
+      console.error(err);
+      setError('Erro ao cadastrar empresa ou colaborador. Tente novamente.');
     }
   };
 
@@ -30,14 +47,37 @@ export default function CompanyRegistration() {
         Cadastrar nova empresa
       </h1>
 
-      <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-4">
+      <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
         <input
           type="text"
           placeholder="Nome da empresa"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={companyName}
+          onChange={(e) => setCompanyName(e.target.value)}
           className="w-full border border-gray-300 rounded px-4 py-2"
           required
+        />
+        <input
+          type="text"
+          placeholder="Nome do colaborador"
+          value={employeeName}
+          onChange={(e) => setEmployeeName(e.target.value)}
+          className="w-full border border-gray-300 rounded px-4 py-2"
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email do colaborador"
+          value={employeeEmail}
+          onChange={(e) => setEmployeeEmail(e.target.value)}
+          className="w-full border border-gray-300 rounded px-4 py-2"
+          required
+        />
+        <input
+          type="text"
+          placeholder="URL da foto (opcional)"
+          value={employeePicture}
+          onChange={(e) => setEmployeePicture(e.target.value)}
+          className="w-full border border-gray-300 rounded px-4 py-2"
         />
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -48,6 +88,15 @@ export default function CompanyRegistration() {
         >
           Cadastrar
         </button>
+
+      <div>
+        <p className="mt-4 text-sm text-gray-600 text-center">
+          Já tem uma conta?{' '}
+          <a href="/admin/login" className="text-blue-600 hover:underline">
+            Fazer login
+          </a>
+        </p>
+      </div>
       </form>
     </div>
   );

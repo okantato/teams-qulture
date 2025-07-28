@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import React from 'react';
 import useUserStore from '../store/userStore';
 import { useNavigate } from 'react-router-dom';
@@ -21,40 +20,66 @@ export default function Navbar() {
     <header className="fixed top-0 left-0 w-full bg-white text-black border-b border-gray-200 py-3 px-4 shadow font-mono z-50">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
         {/* Logo e Nome */}
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
+        <div
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={() => navigate('/')}
+        >
           <img src="/logo.png" alt="TeamsQulture Logo" className="h-8 w-8" />
           <h2 className="text-lg font-bold">TeamsQulture</h2>
         </div>
 
-        {/* Navegação por papel */}
+        {/* Navegação */}
         {user && (
-          <nav className="flex flex-wrap items-center gap-4">
+          <nav className="flex flex-wrap items-center gap-6">
+            {/* Ações por papel */}
             {isSuperadmin && (
               <>
-                <button onClick={() => navigate('/superadmin/dashboard')} className="text-sm hover:underline">
+                <button
+                  onClick={() => navigate('/superadmin/dashboard')}
+                  className="text-sm hover:underline"
+                >
                   Dashboard
                 </button>
-                <button onClick={() => navigate('/superadmin/companies')} className="text-sm hover:underline">
+                <button
+                  onClick={() => navigate('/superadmin/companies')}
+                  className="text-sm hover:underline"
+                >
                   Empresas
                 </button>
               </>
             )}
 
             {isAdmin && !isSuperadmin && (
-              <button onClick={() => navigate('/admin/dashboard')} className="text-sm hover:underline">
-                Dashboard Admin
-              </button>
+              <>
+                <button
+                  onClick={() => navigate('/admin/dashboard')}
+                  className="text-sm hover:underline"
+                >
+                  Dashboard Admin
+                </button>
+                <button
+                  onClick={() => navigate('/admin/employees')}
+                  className="text-sm hover:underline"
+                >
+                  Colaboradores
+                </button>
+              </>
             )}
 
             {isUser && (
-              <button onClick={() => navigate('/user/dashboard')} className="text-sm hover:underline">
+              <button
+                onClick={() => navigate('/user/dashboard')}
+                className="text-sm hover:underline"
+              >
                 Meu Painel
               </button>
             )}
 
-            {/* Nome + Foto + Logout */}
+            {/* Perfil e logout */}
             <div className="flex items-center gap-3">
-              <span className="text-sm font-semibold text-gray-700">{user.name}</span>
+              <span className="text-sm font-semibold text-gray-700">
+                {user.name}
+              </span>
 
               {user.picture ? (
                 <img
