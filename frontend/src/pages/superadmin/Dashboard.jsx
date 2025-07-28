@@ -9,8 +9,8 @@ export default function SuperadminDashboard() {
   return (
     <div className="min-h-screen flex font-mono bg-white text-black">
       <Navbar />
-      <main className=" pt-20 flex-1 p-10 flex flex-col items-center justify-center">
-        <h1 className="text-3xl font-bold mb-4">Painel do Super Admin</h1>
+      <main className="pt-20 flex-1 p-10 flex flex-col items-center justify-center">
+        <h1 className="text-3xl font-bold mb-4 text-center">Painel do Super Admin</h1>
         <p className="text-center">Você tem acesso total ao sistema.</p>
 
         <div className="flex flex-col gap-4 mt-6">
