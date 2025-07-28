@@ -38,7 +38,8 @@ rails s
 
 * Node.js 20+
 * Yarn (opcional)
-
+  
+```bash
 # Acesse o diretório do frontend
 cd teams-qulture/frontend
 
@@ -50,7 +51,7 @@ npm run dev
 
 # Acesse no navegador:
 # http://localhost:5173
-
+```
 ---
 
 ## 👤 Usuário de Teste
