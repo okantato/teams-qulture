@@ -9,12 +9,12 @@ export default function UserDashboard() {
   const companyName = user?.company_name || 'sua empresa';
 
   return (
-    <div className="min-h-screen bg-white text-black font-mono px-4">
+    <div className="min-h-screen flex font-mono bg-white text-black">
       <Navbar />
 
-      <div className="pt-32 flex flex-col items-center justify-center pt-24 space-y-6 text-center">
-        <h1 className="text-2xl sm:text-3xl font-bold">Painel do Usuário</h1>
-        <p className="text-sm sm:text-base text-gray-700">
+      <div className="pt-20 flex-1 p-10 flex flex-col items-center justify-center">
+        <h1 className="text-3xl font-bold mb-4 text-center">Painel do Usuário</h1>
+        <p className="text-sm sm:text-base text-gray-700 text-center">
           Você está logado como colaborador da empresa <strong>{companyName}</strong>
         </p>
 
