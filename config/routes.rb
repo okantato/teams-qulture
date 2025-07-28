@@ -12,5 +12,7 @@ Rails.application.routes.draw do
     end
   end
 
+  post '/sessions', to: 'sessions#create'
+
   get "up" => "rails/health#show", as: :rails_health_check
 end
