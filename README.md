@@ -115,6 +115,4 @@ Este projeto foi desenvolvido com foco em:
 - Facilidade de testes manuais e automatizados
 - Consistência visual e componentização no React
 
-📝 Projeto focado na entrega das *user stories* propostas, com código limpo, layout simples e arquitetura preparada para evolução.
-
-Fico à disposição para dúvidas ou melhorias. Obrigado pela oportunidade!
+focado na entrega das *user stories* propostas.
