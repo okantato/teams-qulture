@@ -6,7 +6,7 @@ Desenvolvida com arquitetura desacoplada (Rails API + React), seguindo boas prá
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 | Camada       | Tecnologias                                             |
 | ------------ | ------------------------------------------------------- |
@@ -16,7 +16,7 @@ Desenvolvida com arquitetura desacoplada (Rails API + React), seguindo boas prá
 
 ---
 
-## 🛍️ Como Rodar o Projeto
+## Como Rodar o Projeto
 
 ### Backend (Rails API)
 
