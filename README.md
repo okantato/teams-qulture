@@ -39,11 +39,17 @@ rails s
 * Node.js 20+
 * Yarn (opcional)
 
-```bash
+# Acesse o diretório do frontend
+cd teams-qulture/frontend
+
+# Instale as dependências
 npm install
+
+# Inicie o servidor de desenvolvimento
 npm run dev
-# Acesse: http://localhost:5173
-```
+
+# Acesse no navegador:
+# http://localhost:5173
 
 ---
 
