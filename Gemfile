@@ -26,6 +26,7 @@ gem "rack-cors"
 # Compatibilidade com Windows (se necessário)
 gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
 
+
 group :development, :test do
   # Testes
   gem "rspec-rails"

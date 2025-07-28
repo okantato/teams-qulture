@@ -6,9 +6,17 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center font-mono px-4">
-      <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">
-        Bem-vindo ao TeamsQulture
+      <h1 className="text-2xl md:text-3xl font-bold text-center mb-2">
+        Bem-vindo ao
       </h1>
+      <div className="flex items-center gap-2 mb-6">
+        <img
+          src="/logo.png"
+          alt="Logo TeamsQulture"
+          className="w-8 h-8 md:w-10 md:h-10"
+        />
+        <span className="text-2xl md:text-3xl font-bold">TeamsQulture</span>
+      </div>
       <div className="flex gap-4">
         <button
           onClick={() => navigate('/admin/login')}
